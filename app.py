@@ -15,8 +15,8 @@ st.set_page_config(
 @st.cache_data
 def load_data():
     """Load and prepare the data"""
-    # Load the address data
-    address_df = pd.read_csv('Address Details.csv')
+    # Load the combined address data (merges Address Details.csv and TNAddress.csv)
+    address_df = pd.read_csv('Combined_Address_Details.csv')
 
     # Load Google Maps pincode coordinates (more reliable than the old CSV)
     pincode_coords = pd.read_csv('pincode_coordinates_google.csv')
@@ -164,7 +164,7 @@ if viz_type in ["Clustered Markers", "Both"]:
             else if (sumPct >= 1) color = 'lightgreen';
 
             return L.divIcon({{
-                html: '<div style="background-color:' + color + '; border-radius: 50%; text-align: center; color: white; font-weight: bold; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5);"><span>' + displayText + '</span></div>',
+                html: '<div style="background-color:' + color + '; border-radius: 50%; text-align: center; color: black; font-weight: bold; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5);"><span>' + displayText + '</span></div>',
                 className: 'marker-cluster marker-cluster-' + size,
                 iconSize: new L.Point(40, 40)
             }});
@@ -190,7 +190,7 @@ if viz_type in ["Clustered Markers", "Both"]:
             else if (sum >= 100) color = 'lightgreen';
 
             return L.divIcon({
-                html: '<div style="background-color:' + color + '; border-radius: 50%; text-align: center; color: white; font-weight: bold; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5);"><span>' + sum + '</span></div>',
+                html: '<div style="background-color:' + color + '; border-radius: 50%; text-align: center; color: black; font-weight: bold; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.5);"><span>' + sum + '</span></div>',
                 className: 'marker-cluster marker-cluster-' + size,
                 iconSize: new L.Point(40, 40)
             });
@@ -258,7 +258,7 @@ if viz_type in ["Clustered Markers", "Both"]:
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: white;
+                color: black;
                 font-weight: bold;
                 font-size: 11px;
                 border: 3px solid white;

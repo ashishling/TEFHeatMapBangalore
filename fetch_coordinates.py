@@ -74,15 +74,27 @@ def main():
     else:
         cached_pincodes = set()
 
-    # Load address data
+    # Load address data from all CSV files
     print("\nLoading address data...")
-    address_df = pd.read_csv('Address Details.csv')
-    address_df['CPA_PIN_CODE'] = pd.to_numeric(address_df['CPA_PIN_CODE'], errors='coerce')
-    address_df = address_df.dropna(subset=['CPA_PIN_CODE'])
 
-    # Get unique pincodes
-    unique_pincodes = sorted(address_df['CPA_PIN_CODE'].unique())
-    print(f"Found {len(unique_pincodes)} unique pincodes in Address Details.csv")
+    # List of CSV files to process
+    csv_files = ['Address Details.csv', 'TNAddress.csv']
+    all_pincodes = set()
+
+    for csv_file in csv_files:
+        if Path(csv_file).exists():
+            df = pd.read_csv(csv_file)
+            df['CPA_PIN_CODE'] = pd.to_numeric(df['CPA_PIN_CODE'], errors='coerce')
+            df = df.dropna(subset=['CPA_PIN_CODE'])
+            pincodes = set(df['CPA_PIN_CODE'].unique())
+            all_pincodes.update(pincodes)
+            print(f"  - {csv_file}: {len(df)} records, {len(pincodes)} unique pincodes")
+        else:
+            print(f"  - {csv_file}: NOT FOUND (skipping)")
+
+    # Get unique pincodes across all files
+    unique_pincodes = sorted(all_pincodes)
+    print(f"\nTotal unique pincodes across all files: {len(unique_pincodes)}")
 
     # Filter out already cached pincodes
     pincodes_to_fetch = [p for p in unique_pincodes if p not in cached_pincodes]
